@@ -9,12 +9,50 @@ import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
 abstract class AbstractDDSDecoder(protected var dds: DDS) : DDSDecoder {
+    /**
+     * The Current **data line** the decoder has reached.
+     *
+     * @see decodeDataLine
+     */
     protected var curLine: Int = 0
+
+    /**
+     * The max **data line**, equal to [top.kkoishi.dds.DDSHeader.dwHeight].
+     *
+     * @see decodeDataLine
+     * @see top.kkoishi.dds.DDSHeader.dwHeight
+     */
     protected val maxLine: Int
+
+    /**
+     * The **data line** width in int, actually is the size of every "row" array
+     * in the data two-dimensional array, and equal to [top.kkoishi.dds.DDSHeader.dwWidth].
+     *
+     * @see decodeDataLine
+     * @see top.kkoishi.dds.DDSHeader.dwWidth
+     */
     protected val lineWidth: Int
+
+    /**
+     * The **data line** width in int, actually is the bits size of every "row" array
+     * in the data two-dimensional array, and equal to
+     * [top.kkoishi.dds.DDSHeader.dwWidth] * [top.kkoishi.dds.DDSPixelFormat.dwRGBBitCount].
+     *
+     * @see decodeDataLine
+     * @see top.kkoishi.dds.DDSHeader.dwWidth
+     * @see top.kkoishi.dds.DDSHeader.ddspf
+     * @see top.kkoishi.dds.DDSPixelFormat.dwRGBBitCount
+     */
     protected val lineByteSize: Int
     protected val lineByteCache: ByteBuffer
     protected val linePixelsIntCache: IntBuffer
+
+    /**
+     * The Current position (of [DDS.bdata]) the decoder has reached.
+     *
+     * @see top.kkoishi.dds.DDS.bdata
+     * @see top.kkoishi.dds.DDS.bdata2
+     */
     protected var pos: Int = 0
 
     init {
@@ -28,7 +66,9 @@ abstract class AbstractDDSDecoder(protected var dds: DDS) : DDSDecoder {
     }
 
     /**
-     * Load the next line into the byte cache.
+     * Load the next data line into the byte cache.
+     *
+     * @see decodeDataLine
      */
     protected fun loadNextLine() {
         lineByteCache.rewind()

@@ -5,7 +5,7 @@ import ar.com.hjg.pngj.PngWriter
 import org.junit.jupiter.api.Test
 import top.kkoishi.dds.DDS
 import top.kkoishi.dds.decode.DDSDecoder
-import top.kkoishi.dds.top.kkoishi.dds.decode.RGBADDSDecoder
+import top.kkoishi.dds.decode.RGBADDSDecoder
 import kotlin.io.path.Path
 import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream

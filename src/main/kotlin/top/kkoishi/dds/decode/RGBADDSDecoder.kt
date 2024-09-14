@@ -1,9 +1,11 @@
-package top.kkoishi.dds.top.kkoishi.dds.decode
+package top.kkoishi.dds.decode
 
 import top.kkoishi.dds.DDS
-import top.kkoishi.dds.decode.AbstractDDSDecoder
 import java.lang.Integer.numberOfTrailingZeros
 
+/**
+ * RGBA DDS data decoder.
+ */
 class RGBADDSDecoder(dds: DDS) : AbstractDDSDecoder(dds) {
     private val rBitMask: Int
     private val gBitMask: Int
@@ -14,6 +16,9 @@ class RGBADDSDecoder(dds: DDS) : AbstractDDSDecoder(dds) {
     private val bBitShift: Int
     private val aBitShift: Int
 
+    /**
+     * if DDS is already in RGBA format, we can skip further processing.
+     */
     private val skipShifting: Boolean
 
     init {

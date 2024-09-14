@@ -36,6 +36,12 @@ class DDSPixelFormat : DDSReadable {
         private set(value) {
             _dwFourCC = value
         }
+
+    /**
+     * The dwRGBBitCount Number of bits in an RGB (possibly alpha) format, and
+     * this is only valid when dwFlags includes
+     * [DWFlags.DDPF_RGB], [DWFlags.DDPF_YUV] and [DWFlags.DDPF_LUMINANCE].
+     */
     var dwRGBBitCount: Int = 0
         private set(value) {
             field = value
