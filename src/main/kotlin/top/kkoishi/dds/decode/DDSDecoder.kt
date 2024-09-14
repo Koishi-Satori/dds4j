@@ -16,6 +16,8 @@ interface DDSDecoder : Iterable<IntArray> {
      *
      * The **data line** means a row in the pixels data two-dimensional array.
      *
+     * For the DXT-Compressed [top.kkoishi.dds.DDS.bdata], this will decode the next line of data blocks.
+     *
      * @return next line.
      */
     fun decodeDataLine(): IntArray
