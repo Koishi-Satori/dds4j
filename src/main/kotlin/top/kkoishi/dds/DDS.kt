@@ -1,6 +1,8 @@
 package top.kkoishi.dds
 
 import top.kkoishi.dds.InternalUtils.verify
+import top.kkoishi.dds.decode.compress.DXGIBCUtils.DXGI_FORMAT_BC1_DXT1_BLOCK_SIZE_BYTES
+import top.kkoishi.dds.decode.compress.DXGIBCUtils.DXGI_FORMAT_BC2_DXT3_BLOCK_SIZE_BYTES
 import java.io.DataInputStream
 import java.lang.Integer.reverseBytes
 import java.util.EnumSet
@@ -11,28 +13,43 @@ class DDS : DDSReadable {
          * DDS Magic Number: 'D', 'D', 'S', ' '.
          */
         @JvmStatic
-        val DDS_MAGIC_NUMBER = Integer.reverseBytes(0x44445320)
+        val DDS_MAGIC_NUMBER = reverseBytes(0x44445320)
 
         @JvmStatic
         val BAD_DW_FOUR_CC_STR = "${Char(0)}${Char(0)}${Char(0)}${Char(0)}"
     }
 
+    /**
+     * The magic number of a DDS file.
+     */
     var dwMagic = 0
         private set(value) {
             field = value
         }
+
+    /**
+     * The DDS file header.
+     */
     private lateinit var _header: DDSHeader
     var header: DDSHeader
         get() = _header
         private set(value) {
             _header = value
         }
+
+    /**
+     * The pixels data of a DDS file.
+     */
     private lateinit var _bdata: ByteArray
     var bdata: ByteArray
         get() = _bdata
         private set(value) {
             _bdata = value
         }
+
+    /**
+     * unused.
+     */
     private lateinit var _bdata2: ByteArray
     var bdata2: ByteArray
         get() = _bdata2
@@ -98,13 +115,26 @@ class DDS : DDSReadable {
         return header.dwPitchOrLinearSize
     }
 
+    /**
+     * Calc the BC/DXT compressed block size.
+     *
+     * The block size of BC1/DXT1 is eight.
+     *
+     * And the block size of BC2 and BC3 is 16.
+     *
+     * @param dwFourCC [dwFourCC]
+     * @return the compressed block size.
+     * @see top.kkoishi.dds.decode.compress.DXGIBCUtils.DXGI_FORMAT_BC1_DXT1_BLOCK_SIZE_BYTES
+     * @see top.kkoishi.dds.decode.compress.DXGIBCUtils.DXGI_FORMAT_BC2_DXT3_BLOCK_SIZE_BYTES
+     * @see top.kkoishi.dds.decode.compress.DXGIBCUtils.DXGI_FORMAT_BC3_DXT5_BLOCK_SIZE_BYTES
+     */
     private fun calcBlockSize(dwFourCC: String): Int = when (dwFourCC) {
         BAD_DW_FOUR_CC_STR -> throw IllegalArgumentException(
             "The provided DDS file has DDPF_FOURCC flag set but no dwFourCC"
         )
 
-        "DXT1" -> 8
-        else -> 16
+        "DXT1" -> DXGI_FORMAT_BC1_DXT1_BLOCK_SIZE_BYTES
+        else -> DXGI_FORMAT_BC2_DXT3_BLOCK_SIZE_BYTES
     }
 
     override fun toString(): String {

@@ -19,6 +19,9 @@ class DDSHeader : DDSReadable {
         val DW_RESERVED_1 = IntArray(DW_RESERVED_1_SIZE)
     }
 
+    /**
+     * The size of the header, it should be 124.
+     */
     var dwSize: Int = 0
         private set(value) {
             field = value
