@@ -1,13 +1,13 @@
 package top.kkoishi.dds.decode.compress
 
-import top.kkoishi.dds.DDS
+import top.kkoishi.dds.DDSRef
 import top.kkoishi.dds.decode.DDSDecoder
 import java.util.*
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
 /**
- * DDS Decoder, used to decode DXT compressed [top.kkoishi.dds.DDS.bdata].
+ * DDS Decoder, used to decode DXT compressed [top.kkoishi.dds.DDSRef.bdata].
  *
  * DXT Compress reference: [MSDN-Block Compress(DX10)](https://learn.microsoft.com/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-block-compression)
  *
@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport
  *
  * @see decodeDataLine
  */
-abstract class AbstractDXTDDSDecoder(protected var dds: DDS, protected val blockByteSize: Int) : DDSDecoder {
+abstract class AbstractDXTDDSDecoder(protected var dds: DDSRef, protected val blockByteSize: Int) : DDSDecoder {
     /**
      * The Current **data line** the decoder has reached.
      *
@@ -58,10 +58,10 @@ abstract class AbstractDXTDDSDecoder(protected var dds: DDS, protected val block
     protected val blocksLineCache: ByteArray
 
     /**
-     * The Current position (of [DDS.bdata]) the decoder has reached.
+     * The Current position (of [DDSRef.bdata]) the decoder has reached.
      *
-     * @see top.kkoishi.dds.DDS.bdata
-     * @see top.kkoishi.dds.DDS.bdata2
+     * @see top.kkoishi.dds.DDSRef.bdata
+     * @see top.kkoishi.dds.DDSRef.bdata2
      */
     protected var pos: Int = 0
 

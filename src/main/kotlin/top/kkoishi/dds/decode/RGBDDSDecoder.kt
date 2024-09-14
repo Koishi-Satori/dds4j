@@ -1,9 +1,9 @@
 package top.kkoishi.dds.decode
 
-import top.kkoishi.dds.DDS
+import top.kkoishi.dds.DDSRef
 import java.lang.Integer.numberOfTrailingZeros
 
-class RGBDDSDecoder(dds: DDS) : AbstractDDSDecoder(dds) {
+class RGBDDSDecoder(dds: DDSRef) : AbstractDDSDecoder(dds) {
     private val rBitMask: Int
     private val gBitMask: Int
     private val bBitMask: Int

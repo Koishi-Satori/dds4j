@@ -1,6 +1,6 @@
 package top.kkoishi.dds.decode
 
-import top.kkoishi.dds.DDS
+import top.kkoishi.dds.DDSRef
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.IntBuffer
@@ -8,7 +8,7 @@ import java.util.*
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
-abstract class AbstractDDSDecoder(protected var dds: DDS) : DDSDecoder {
+abstract class AbstractDDSDecoder(protected var dds: DDSRef) : DDSDecoder {
     /**
      * The Current **data line** the decoder has reached.
      *
@@ -48,10 +48,10 @@ abstract class AbstractDDSDecoder(protected var dds: DDS) : DDSDecoder {
     protected val linePixelsIntCache: IntBuffer
 
     /**
-     * The Current position (of [DDS.bdata]) the decoder has reached.
+     * The Current position (of [DDSRef.bdata]) the decoder has reached.
      *
-     * @see top.kkoishi.dds.DDS.bdata
-     * @see top.kkoishi.dds.DDS.bdata2
+     * @see top.kkoishi.dds.DDSRef.bdata
+     * @see top.kkoishi.dds.DDSRef.bdata2
      */
     protected var pos: Int = 0
 

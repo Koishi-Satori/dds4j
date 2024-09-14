@@ -1,14 +1,6 @@
-import ar.com.hjg.pngj.ImageInfo
-import ar.com.hjg.pngj.ImageLineHelper
-import ar.com.hjg.pngj.ImageLineInt
-import ar.com.hjg.pngj.PngWriter
 import org.junit.jupiter.api.Test
-import top.kkoishi.dds.DDS
-import top.kkoishi.dds.decode.DDSDecoder
-import top.kkoishi.dds.decode.RGBADDSDecoder
-import top.kkoishi.dds.decode.compress.DXT1DDSDecoder
-import top.kkoishi.dds.decode.compress.DXT3DSSDecoder
-import top.kkoishi.dds.decode.compress.DXT5DDSDecoder
+import top.kkoishi.dds.DDSRef
+import top.kkoishi.dds.decode.DDSDecoder.Companion.decodeToPng
 import kotlin.io.path.Path
 import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
@@ -16,7 +8,7 @@ import kotlin.io.path.outputStream
 class Test {
     @Test
     fun testDDSRead() {
-        val dds = DDS()
+        val dds = DDSRef()
         val ins = Path("./test.dds").inputStream().buffered()
         dds.read(ins)
         println(dds)
@@ -27,88 +19,41 @@ class Test {
 
     @Test
     fun testDDSConvert() {
-        val dds = DDS()
+        val dds = DDSRef()
         val ins = Path("./test.dds").inputStream().buffered()
         dds.read(ins)
         ins.close()
-        // convert test, this DDS file should use RGBADDSDecoder
-        val header = dds.header
-        val decoder: DDSDecoder = RGBADDSDecoder(dds)
-        val imageInfo = ImageInfo(header.dwWidth, header.dwHeight, 8, true)
         val oos = Path("./out_png/rgba_dds.png").outputStream().buffered()
-        val writer = PngWriter(oos, imageInfo)
-        val line = ImageLineInt(imageInfo)
-        decoder.forEach {
-            ImageLineHelper.setPixelsRGBA8(line, it)
-            writer.writeRow(line)
-        }
-        writer.end()
-        oos.flush()
-        oos.close()
+        dds.decodeToPng(oos, autoFlush = true, autoClose = true)
     }
 
     @Test
     fun testBC1DXT1DDSConvert() {
-        val dds = DDS()
+        val dds = DDSRef()
         val ins = Path("./test_dxt1.dds").inputStream().buffered()
         dds.read(ins)
         ins.close()
-        // convert test, this DDS file should use DXT1DDSDecoder
-        val header = dds.header
-        val decoder: DDSDecoder = DXT1DDSDecoder(dds)
-        val imageInfo = ImageInfo(header.dwWidth, header.dwHeight, 8, true)
         val oos = Path("./out_png/rgba_dxt1_dds.png").outputStream().buffered()
-        val writer = PngWriter(oos, imageInfo)
-        val line = ImageLineInt(imageInfo)
-        decoder.forEach {
-            ImageLineHelper.setPixelsRGBA8(line, it)
-            writer.writeRow(line)
-        }
-        writer.end()
-        oos.flush()
-        oos.close()
+        dds.decodeToPng(oos, autoFlush = true, autoClose = true)
     }
 
     @Test
     fun testBC2DXT3DDSConvert() {
-        val dds = DDS()
+        val dds = DDSRef()
         val ins = Path("./test_dxt3.dds").inputStream().buffered()
         dds.read(ins)
         ins.close()
-        // convert test, this DDS file should use DXT1DDSDecoder
-        val header = dds.header
-        val decoder: DDSDecoder = DXT3DSSDecoder(dds)
-        val imageInfo = ImageInfo(header.dwWidth, header.dwHeight, 8, true)
         val oos = Path("./out_png/rgba_dxt3_dds.png").outputStream().buffered()
-        val writer = PngWriter(oos, imageInfo)
-        val line = ImageLineInt(imageInfo)
-        decoder.forEach {
-            ImageLineHelper.setPixelsRGBA8(line, it)
-            writer.writeRow(line)
-        }
-        writer.end()
-        oos.flush()
-        oos.close()
+        dds.decodeToPng(oos, autoFlush = true, autoClose = true)
     }
+
     @Test
     fun testBC3DXT5DDSConvert() {
-        val dds = DDS()
+        val dds = DDSRef()
         val ins = Path("./test_dxt5.dds").inputStream().buffered()
         dds.read(ins)
         ins.close()
-        // convert test, this DDS file should use DXT1DDSDecoder
-        val header = dds.header
-        val decoder: DDSDecoder = DXT5DDSDecoder(dds)
-        val imageInfo = ImageInfo(header.dwWidth, header.dwHeight, 8, true)
         val oos = Path("./out_png/rgba_dxt5_dds.png").outputStream().buffered()
-        val writer = PngWriter(oos, imageInfo)
-        val line = ImageLineInt(imageInfo)
-        decoder.forEach {
-            ImageLineHelper.setPixelsRGBA8(line, it)
-            writer.writeRow(line)
-        }
-        writer.end()
-        oos.flush()
-        oos.close()
+        dds.decodeToPng(oos, autoFlush = true, autoClose = true)
     }
 }

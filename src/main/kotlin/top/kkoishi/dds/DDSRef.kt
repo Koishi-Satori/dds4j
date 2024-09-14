@@ -7,7 +7,7 @@ import java.io.DataInputStream
 import java.lang.Integer.reverseBytes
 import java.util.EnumSet
 
-class DDS : DDSReadable {
+class DDSRef : DDSReadable {
     companion object {
         /**
          * DDS Magic Number: 'D', 'D', 'S', ' '.

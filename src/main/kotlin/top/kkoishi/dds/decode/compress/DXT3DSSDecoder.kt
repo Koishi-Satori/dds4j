@@ -1,6 +1,6 @@
 package top.kkoishi.dds.decode.compress
 
-import top.kkoishi.dds.DDS
+import top.kkoishi.dds.DDSRef
 import top.kkoishi.dds.decode.compress.DXGIBCUtils.DXGI_FORMAT_BC2_DXT3_BLOCK_SIZE_BYTES
 
 /**
@@ -8,7 +8,7 @@ import top.kkoishi.dds.decode.compress.DXGIBCUtils.DXGI_FORMAT_BC2_DXT3_BLOCK_SI
  *
  * [Block Compression (Direct3D 10)](https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-block-compression)
  */
-class DXT3DSSDecoder(dds: DDS) : AbstractDXTDDSDecoder(dds, DXGI_FORMAT_BC2_DXT3_BLOCK_SIZE_BYTES) {
+class DXT3DSSDecoder(dds: DDSRef) : AbstractDXTDDSDecoder(dds, DXGI_FORMAT_BC2_DXT3_BLOCK_SIZE_BYTES) {
     override fun decodeDataLine(): IntArray {
         if (curLine >= maxLine)
             throw NoSuchElementException("No more line or data blocks.")
